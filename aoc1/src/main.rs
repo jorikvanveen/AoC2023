@@ -98,20 +98,20 @@ mod part2 {
             })
             .collect();
 
-        let first_result = search_results
+        let (first_result, _ , _) = search_results
             .iter()
             .min_by_key(|(_, first_position, _)| first_position)
             .expect("Could not find any digits");
 
-        let last_result = search_results
+        let (last_result, _, _) = search_results
             .iter()
             .max_by_key(|(_, _, last_position)| last_position)
             .expect("Could not find any digits");
 
         let first_digit =
-            digit_string_to_usize(&first_result.0).expect("Found invalid first digit (how?)");
+            digit_string_to_usize(first_result).expect("Found invalid first digit (how?)");
         let last_digit =
-            digit_string_to_usize(&last_result.0).expect("Found invalid last digit (how?)");
+            digit_string_to_usize(last_result).expect("Found invalid last digit (how?)");
 
         first_digit * 10 + last_digit
     }
