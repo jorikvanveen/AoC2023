@@ -49,14 +49,8 @@ mod part1 {
     use super::*;
 
     fn get_calibration_value(line: &str) -> usize {
-        let mut digits = line.chars().filter(is_digit);
-
-        let first = digits.nth(0).expect("No digits found in string");
-        let last = digits.last().unwrap_or(first);
-
-        let first = first as usize - ASCII_OFFSET;
-        let last = last as usize - ASCII_OFFSET;
-
+        let first = line.chars().find(is_digit).expect("No digits found") as usize - ASCII_OFFSET;
+        let last = line.chars().rfind(is_digit).expect("No digits found") as usize - ASCII_OFFSET;
         first * 10 + last
     }
 
@@ -68,21 +62,16 @@ mod part1 {
 }
 
 mod part2 {
-    use super::*;
-
-    const DIGIT_STRINGS: [&'static str; 18] = [
+    const DIGIT_STRINGS: [&str; 18] = [
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "one", "two", "three", "four", "five", "six",
         "seven", "eight", "nine",
     ];
 
     pub fn digit_string_to_usize(digit_str: &str) -> Option<usize> {
-        match DIGIT_STRINGS
+        DIGIT_STRINGS
             .iter()
             .position(|possible_digit_str| &digit_str == possible_digit_str)
-        {
-            Some(pos) => Some(pos % 9 + 1),
-            None => None,
-        }
+            .map(|pos| pos % 9 + 1)
     }
 
     pub fn get_calibration_value(line: &str) -> usize {
