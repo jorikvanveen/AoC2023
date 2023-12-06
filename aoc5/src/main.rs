@@ -72,9 +72,7 @@ impl Almanac {
         let light = self.water_to_light.get(water);
         let temperature = self.light_to_temperature.get(light);
         let humidity = self.temperature_to_humidity.get(temperature);
-        let location = self.humidity_to_location.get(humidity);
-
-        location 
+        self.humidity_to_location.get(humidity)
     }
 }
 
@@ -121,7 +119,10 @@ mod part1 {
     use crate::*;
     pub fn solution() {
         let almanac = parse_input();
-        let locations = almanac.seeds.iter().map(|seed| almanac.get_seed_location(*seed));
+        let locations = almanac
+            .seeds
+            .iter()
+            .map(|seed| almanac.get_seed_location(*seed));
         println!("(Part 1) Lowest location: {}", locations.min().unwrap());
     }
 }
@@ -140,7 +141,11 @@ mod part2 {
             lower_bound..(lower_bound + length + 1)
         });
 
-        let min_location = seeds.into_par_iter().map(|seed| almanac.get_seed_location(seed)).min().unwrap();
+        let min_location = seeds
+            .into_par_iter()
+            .map(|seed| almanac.get_seed_location(seed))
+            .min()
+            .unwrap();
         println!("(Part 2) Lowest location: {}", min_location);
     }
 }
